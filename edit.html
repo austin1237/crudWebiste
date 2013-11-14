@@ -1,0 +1,8 @@
+<div ng-controller="editCtrl" ng-init = "init()">
+    <form novalidate class="simple-form">
+        userId: <input type="text" ng-model="user.userId" /><br />
+        Name: <input type="text" ng-model="user.userName" /><br />
+        password: <input type="text" ng-model="user.password" /><br />
+        <button ng:click="updateVaules()">edit</button>
+    </form>
+</div>

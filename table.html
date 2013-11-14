@@ -1,0 +1,14 @@
+<div ng-controller="tableCtrl" ng-init = "showVaules()">
+<h1> the table partial loaded</h1>
+    <table>
+    <thead>
+    <th ng:repeat="header in headers">{{header}}</th>
+    </thead>
+    <tbody ng:repeat="user in users">
+
+    <td ng:repeat="(key, value) in user">{{value}}</td>
+    <td><button ng:click="updateVaules(user)">EDIT</button></td>
+    <td><button ng:click="removeItem(user)">DELETE</button></td>
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html ng-app = 'myApp'>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div ng-controller="Controller">
+        Collection Name: <select ng-model="collections"> </select>
+        <button  onclick="location.href='http://localhost:8080/#/add'">Write</button>
+        <button  onclick="location.href='http://localhost:8080/#/update'">Update</button>
+        <button  onclick="location.href='http://localhost:8080/#/'" ng-click = showValues()>Read</button>
+      </form>
+
+        <div ng-repeat="user in users">
+            {{user.userId}} {{user.userName}} {{user.password}}
+        </div>
+
+
+      <pre>form = {{user | json}}</pre>
+    </div>
+          <ng-view></ng-view>
+      </div>
+
+  </body>
+</html>
