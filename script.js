@@ -34,10 +34,11 @@ myApp.factory('Data', function() {
 
 
 
-//Provides an Http resource to be injected into any controller that needs it.
-function mainCtrl($scope, $http) {
-    //scope is all of the elements within the controller declared on the html
 
+function mainCtrl($scope, $http) {
+    //gets collection names from the database.
+
+    //this call doens't work get api for this function is
     $scope.getDbInfo = function () {
         var url = 'http://localhost:3000/mongo';
         $http({  method: 'get', url: url}).
@@ -117,9 +118,9 @@ function tableCtrl($scope, $http, $location, Data)  {
     }
 
     $scope.deleteVaules = function (item) {
-        var url = 'http://localhost:3000/delete';
-        //console.log($scope.user.userId);
-        $http({  method: 'Post', url: url, data: JSON.stringify(item) }).
+        var url = 'http://localhost:3000/users/' + item._id;
+        console.log('url is'  + url);
+        $http({  method: 'Delete', url: url, data: JSON.stringify(item) }).
             success(function (data, status, headers, config) {
                 console.log(data);
                 console.log('success');
@@ -138,11 +139,12 @@ function tableCtrl($scope, $http, $location, Data)  {
 function editCtrl($scope, $http, $location, Data) {
     //insert values should be changed to the update value
     $scope.updateVaules = function () {
-        var url = 'http://localhost:3000/update';
-        console.log("about to update users");
-        console.log(JSON.stringify(Data.getData()));
+        var data = Data.getData();
+        var url = 'http://localhost:3000/users/' + data._id;
+        console.log("url is " + url);
+        console.log(JSON.stringify(data));
 
-        $http({  method: 'Post', url: url, data: JSON.stringify(Data.getData()) }).
+        $http({  method: 'Put', url: url, data: JSON.stringify(Data.getData()) }).
             success(function (data, status, headers, config) {
                 console.log(data);
                 console.log('success');
@@ -165,7 +167,7 @@ function editCtrl($scope, $http, $location, Data) {
 function addCtrl($scope, $http) {
 
     $scope.Write = function() {
-        var url = 'http://localhost:3000/test2';
+        var url = 'http://localhost:3000/users/';
         $http({ method: 'Post', url: url, data: JSON.stringify($scope.user) }).
             success(function (data, status, headers, config) {
                 console.log(data);
