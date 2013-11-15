@@ -1,14 +1,14 @@
 <div ng-controller="tableCtrl" ng-init = "showVaules()">
-<h1> Users Collection </h1>
+    <h1> Users Collection </h1>
     <table class="table table-hover">
-    <thead>
-    <th ng:repeat="header in headers">{{header}}</th>
-    </thead>
-    <tbody ng:repeat="user in users">
+        <thead>
+        <th ng:repeat="header in headers">{{header}}</th>
+        </thead>
+        <tbody ng:repeat="user in users">
 
-    <td ng:repeat="(key, value) in user">{{value}}</td>
-    <td><button ng:click="updateVaules(user)" class="btn btn-warning">EDIT</button></td>
-    <td><button ng:click="removeItem(user)" class="btn btn-danger">DELETE</button></td>
-    </tbody>
-</table>
+        <td ng:repeat="(key, value) in user">{{value}}</td>
+        <td><button ng:click="updateVaules(user)" class="btn btn-warning">EDIT</button></td>
+        <td><button ng:click="removeItem(user)" class="btn btn-danger">DELETE</button></td>
+        </tbody>
+    </table>
 </div>

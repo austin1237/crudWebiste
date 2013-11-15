@@ -12,24 +12,24 @@ var myApp = angular.module('myApp', []);
 //***todos***
 //**make this restful
 
-    myApp.config(function ($routeProvider) {
-        $routeProvider.when('/' ,{templateUrl:"table.html"}, "tableCtrl").
-            when('/add', {templateUrl:"add.html"}, "addCtrl").
-            when('/edit', {templateUrl:"edit.html"}, "editCtrl")
-    });
+myApp.config(function ($routeProvider) {
+    $routeProvider.when('/' ,{templateUrl:"table.html"}, "tableCtrl").
+        when('/add', {templateUrl:"add.html"}, "addCtrl").
+        when('/edit', {templateUrl:"edit.html"}, "editCtrl")
+});
 
-   //This service is used to pass data between controllers
-    myApp.factory('Data', function() {
-          var Data;
-       return {
-           getData: function () {
-               return Data;
-           },
-           setData: function(value) {
-               Data = value;
-           }
-       };
-   });
+//This service is used to pass data between controllers
+myApp.factory('Data', function() {
+    var Data;
+    return {
+        getData: function () {
+            return Data;
+        },
+        setData: function(value) {
+            Data = value;
+        }
+    };
+});
 
 
 
@@ -143,15 +143,15 @@ function editCtrl($scope, $http, $location, Data) {
         console.log(JSON.stringify(Data.getData()));
 
         $http({  method: 'Post', url: url, data: JSON.stringify(Data.getData()) }).
-                success(function (data, status, headers, config) {
-                    console.log(data);
-                    console.log('success');
+            success(function (data, status, headers, config) {
+                console.log(data);
+                console.log('success');
                 $location.path('/');//returns user to edit table
 
-                }).
-                error(function (data, status, headers, config) {
-                    console.log('error');
-                });
+            }).
+            error(function (data, status, headers, config) {
+                console.log('error');
+            });
 
     };
 
