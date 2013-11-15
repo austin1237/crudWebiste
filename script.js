@@ -1,4 +1,16 @@
+//***todos***
+//Determine what value should be grabbed from mongo when the user changes collection
+//Document grab the collections from database
+//make the functions more dynamic
+//fix the edit and update functions on the back end
+//sets up the application
+
 var myApp = angular.module('myApp', []);
+
+
+//Determines what gets loaded into ng-view for each url the client visits
+//***todos***
+//**make this restful
 
     myApp.config(function ($routeProvider) {
         $routeProvider.when('/' ,{templateUrl:"table.html"}, "tableCtrl").
@@ -6,7 +18,8 @@ var myApp = angular.module('myApp', []);
             when('/edit', {templateUrl:"edit.html"}, "editCtrl")
     });
 
-   myApp.factory('Data', function() {
+   //This service is used to pass data between controllers
+    myApp.factory('Data', function() {
           var Data;
        return {
            getData: function () {
@@ -19,26 +32,14 @@ var myApp = angular.module('myApp', []);
    });
 
 
-//*****todos******
-///Determine what value should be grabed from mongo when the user changes collection
-//Document grab the collections from database
-//make the functions more dynamic
-//fix the edit and update functions on the back end
-//add bootstrap
-
 
 
 //Provides an Http resource to be injected into any controller that needs it.
-function Controller($scope, $http) {
+function mainCtrl($scope, $http) {
     //scope is all of the elements within the controller declared on the html
-
-
-
-
 
     $scope.getDbInfo = function () {
         var url = 'http://localhost:3000/mongo';
-        console.log($scope.user.userId);
         $http({  method: 'get', url: url}).
             success(function (data, status, headers, config) {
                 console.log(data);
@@ -50,23 +51,9 @@ function Controller($scope, $http) {
     };
 
 
-
-    $scope.updateVaules = function () {
-        //gather user data  then pass that data off to a service for the update controller to use.
-        var url = 'http://localhost:3000/update';
-        console.log($scope.user.userId);
-        console.log($scope.user.password);
-        $http({  method: 'Post', url: url, data: JSON.stringify($scope.user) }).
-            success(function (data, status, headers, config) {
-                console.log(data);
-                console.log('success');
-            }).
-            error(function (data, status, headers, config) {
-                console.log('error');
-            });
-    };
 }
 
+//Gets loaded when user clicks reads
 function tableCtrl($scope, $http, $location, Data)  {
 
 
@@ -74,20 +61,22 @@ function tableCtrl($scope, $http, $location, Data)  {
         console.log("grabbing Values from the database...");
         $scope.users = [];
         var url = 'http://localhost:3000/users';
-        //Http call
+
+        //Gets JSON from the api
         $http({ method: 'GET', url: url }).
             success(function (data, status, headers, config) {
-                ///data is the json from the api
+
                 angular.forEach(data, function(user) {
-                    //user is each javascript object which get posted to an array
-                    //Example {userID:2, name:Austin}
+                    //every user/document is stored into an array
+
                     $scope.users.push(user);
                     console.log(user);
                 });
                 console.log('success');
 
 
-                //gets the headers for the table
+                //gets key from each key/value pair in the object
+                //these keys will be shown as the tables headers
                 $scope.headers = [];
                 for (var key in $scope.users[0]) {
                     if ( $scope.users[0].hasOwnProperty(key)) {
@@ -97,37 +86,33 @@ function tableCtrl($scope, $http, $location, Data)  {
                     }
 
                 }
+                //Sorts the array to match angulars alphabetic order
                 $scope.headers.sort();
             }).
             error(function (data, status, headers, config) {
                 console.log('error');
+
             });
 
+        //this function gives the Service data so the edit controller can have user information
         $scope.updateVaules = function (data) {
             Data.setData(data);
             console.log($scope.user);
             console.log(Data.getData());
             console.log(data);
-            $location.path('/edit');
-           // console.log($scope.user.password);
-//            $http({  method: 'Post', url: url, data: JSON.stringify($scope.user) }).
-//                success(function (data, status, headers, config) {
-//                    console.log(data);
-//                    console.log('success');
-//                }).
-//                error(function (data, status, headers, config) {
-//                    console.log('error');
-//                });
+            $location.path('/edit');//changes the url to trigger the user template
+
         };
     };
 
+    //Removes item from local table
     $scope.removeItem = function (item){
         var index = $scope.users.indexOf(item);
 
         if (index > -1) {
             $scope.users.splice(index, 1);
         }
-
+        //Delete value from the database
         $scope.deleteVaules(item);
     }
 
@@ -150,7 +135,7 @@ function tableCtrl($scope, $http, $location, Data)  {
 
 
 
-function editCtrl($scope, $http, Data) {
+function editCtrl($scope, $http, $location, Data) {
     //insert values should be changed to the update value
     $scope.updateVaules = function () {
         var url = 'http://localhost:3000/update';
@@ -161,6 +146,8 @@ function editCtrl($scope, $http, Data) {
                 success(function (data, status, headers, config) {
                     console.log(data);
                     console.log('success');
+                $location.path('/');//returns user to edit table
+
                 }).
                 error(function (data, status, headers, config) {
                     console.log('error');

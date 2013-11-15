@@ -1,8 +1,30 @@
 <div ng-controller="editCtrl" ng-init = "init()">
-    <form novalidate class="simple-form">
-        userId: <input type="text" ng-model="user.userId" /><br />
-        Name: <input type="text" ng-model="user.userName" /><br />
-        password: <input type="text" ng-model="user.password" /><br />
-        <button ng:click="updateVaules()">edit</button>
+    <form novalidate class="css-form">
+        <div class="input-group">
+            <span class="input-group-addon">userId:</span>
+            <input type="number" ng-model="user.userId" required class="form-control" placeholder="Number"><br />
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Name:</span>
+            <input type="text" ng-model="user.userName" required class="form-control" placeholder="Text"><br />
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Password:</span>
+            <input type="text" ng-model="user.password" required class="form-control" placeholder="Text"><br />
+        </div>
+        <!--Bug function will still execute even if form is invalid-->
+        <button ng-disabled="form.$invalid" ng:click="updateVaules()" class = "btn btn-warning btn-lg">edit</button>
     </form>
+
+
 </div>
+
+<style type="text/css">
+    .css-form input.ng-invalid.ng-dirty {
+        background-color: #FA787E;
+    }
+
+    .css-form input.ng-valid.ng-dirty {
+        background-color: #78FA89;
+    }
+</style>
