@@ -2,7 +2,9 @@ crudWebiste
 ===========
 A few notes...
 
-This was an extremley early interpretation of how angular could interact with an api via $http.
+This was an extremley early interpretation of how angular could interact with an api via $http. The calls are hard coded to send there values to localhost:3000
+
+Also the links are hardcoded which means for this project to work properly its must be in the root folder of a webserver.
 
 The factory Data should be subsituted to use session data.
 
